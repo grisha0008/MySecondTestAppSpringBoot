@@ -11,7 +11,6 @@ import ru.arkhipov.MySecondTestAppSpringBoot.exception.UnsupportedCodeException;
 import ru.arkhipov.MySecondTestAppSpringBoot.exception.ValidationFailedException;
 import ru.arkhipov.MySecondTestAppSpringBoot.model.Request;
 import ru.arkhipov.MySecondTestAppSpringBoot.model.Response;
-import ru.arkhipov.MySecondTestAppSpringBoot.service.RequestUnsupportedService;
 import ru.arkhipov.MySecondTestAppSpringBoot.service.UnsupportedService;
 import ru.arkhipov.MySecondTestAppSpringBoot.service.ValidationService;
 
@@ -23,10 +22,12 @@ import java.util.Date;
 public class MyController {
 
     private final ValidationService validationService;
+    private final UnsupportedService unsupportedService;
 
     @Autowired
-    public MyController(ValidationService validationService) {
+    public MyController(ValidationService validationService, UnsupportedService unsupportedService) {
         this.validationService = validationService;
+        this.unsupportedService = unsupportedService;
     }
 
     @PostMapping(value = "/feedback")
@@ -47,15 +48,15 @@ public class MyController {
         try {
             validationService.isValid(bindingResult);
             unsupportedService.unsupported(request);
-        } catch (UnsupportedCodeException e) {
-            response.setCode("failed");
-            response.setErrorCode("ValidationException");
-            response.setErrorMessage("Ошибка валидаций, uid не может быть меньше 123");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         } catch (ValidationFailedException e) {
             response.setCode("failed");
             response.setErrorCode("ValidationException");
             response.setErrorMessage("Ошибка валидаций");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (UnsupportedCodeException e) {
+            response.setCode("failed");
+            response.setErrorCode("ValidationException");
+            response.setErrorMessage("Ошибка валидаций, uid не может быть меньше 123");
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             response.setCode("failed");
