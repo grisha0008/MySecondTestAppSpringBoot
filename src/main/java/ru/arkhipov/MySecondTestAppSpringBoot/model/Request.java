@@ -21,16 +21,20 @@ public class Request {
     @NotBlank(message = "поле не должно быть пустым")
     @Size(max = 32 , message = "поле uid не больше 32 символа")
     private String uid;
+
     @NotBlank(message = "поле не должно быть пустым")
     @Size(max = 32 , message = "поле operationUID не больше 32 символа")
     private String operationUid;
+
     private String systemName;
     @NotBlank(message = "поле не должно быть пустым")
     private String systemTime;
+
     private String source;
     @Min(value = 1, message = "поле communication не может быть меньше 1")
     @Max(value = 100000, message = "поле не может быть больше 100000")
     private int communicationId;
+
     private int templateId;
     private int productCode;
     private int smsCode;
