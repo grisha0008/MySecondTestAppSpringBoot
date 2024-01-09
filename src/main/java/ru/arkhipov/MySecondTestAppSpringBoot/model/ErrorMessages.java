@@ -2,7 +2,7 @@ package ru.arkhipov.MySecondTestAppSpringBoot.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum ErrorMesages {
+public enum ErrorMessages {
 
     EMPTY(""),
     VALIDATION("Ошибка валидаций"),
@@ -12,7 +12,7 @@ public enum ErrorMesages {
 
     private final String description;
 
-    ErrorMesages(String description) {
+    ErrorMessages(String description) {
         this.description = description;
     }
 

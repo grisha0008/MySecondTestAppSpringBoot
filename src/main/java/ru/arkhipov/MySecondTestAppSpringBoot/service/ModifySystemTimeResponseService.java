@@ -13,7 +13,7 @@ public class ModifySystemTimeResponseService implements ModifyResponseService {
 
     @Override
     public Response modify(Response response) {
-        response.setSystemTime(DateTimeUtil.getCustonFormat().format(new Date()));
+        response.setSystemTime(DateTimeUtil.getCustomFormat().format(new Date()));
 
         return response;
     }

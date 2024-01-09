@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.arkhipov.MySecondTestAppSpringBoot.exception.UnsupportedCodeException;
 import ru.arkhipov.MySecondTestAppSpringBoot.exception.ValidationFailedException;
 import ru.arkhipov.MySecondTestAppSpringBoot.model.*;
-import ru.arkhipov.MySecondTestAppSpringBoot.service.ModifyOperationUidResponseService;
 import ru.arkhipov.MySecondTestAppSpringBoot.service.ModifyResponseService;
 import ru.arkhipov.MySecondTestAppSpringBoot.service.UnsupportedService;
 import ru.arkhipov.MySecondTestAppSpringBoot.service.ValidationService;
@@ -49,39 +48,42 @@ public class MyController {
         Response response = Response.builder()
                 .uid(request.getUid())
                 .operationUid(request.getOperationUid())
-                .systemTime(DateTimeUtil.getCustonFormat().format(new Date()))
+                .systemTime(DateTimeUtil.getCustomFormat().format(new Date()))
                 .code(Codes.SUCCESS)
                 .errorCode(ErrorCodes.EMPTY)
-                .errorMessage(ErrorMesages.EMPTY)
+                .errorMessage(ErrorMessages.EMPTY)
                 .build();
-        try {
-            validationService.isValid(bindingResult);
-            unsupportedService.unsupported(request);
-        } catch (ValidationFailedException e) {
-            response.setCode(Codes.FAILED);
-            response.setErrorCode(ErrorCodes.VALIDATION_EXCEPTION);
-            response.setErrorMessage(ErrorMesages.VALIDATION);
-            log.info("response {}", response);
-            log.error("ValidationFailedException", e);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        } catch (UnsupportedCodeException e) {
-            response.setCode(Codes.FAILED);
-            response.setErrorCode(ErrorCodes.VALIDATION_EXCEPTION);
-            response.setErrorMessage(ErrorMesages.VALIDATION);
-            log.info("response {}", response);
-            log.error("UnsupportedCodeException", e);
-            System.err.println(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            response.setCode(Codes.FAILED);
-            response.setErrorCode(ErrorCodes.UNKNOWN_EXCEPTIONS);
-            response.setErrorMessage(ErrorMesages.UNKNOWN);
-            log.info("response {}", response);
-            log.error("Exception", e);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        modifyResponseService.modify(response);
 
+            try {
+                validationService.isValid(bindingResult);
+                unsupportedService.unsupported(request);
+            }
+            catch (ValidationFailedException e) {
+                response.setCode(Codes.FAILED);
+                response.setErrorCode(ErrorCodes.VALIDATION_EXCEPTION);
+                response.setErrorMessage(ErrorMessages.VALIDATION);
+                log.info("response {}", response);
+                log.error("ValidationFailedException", e);
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+            } catch (UnsupportedCodeException e) {
+                response.setCode(Codes.FAILED);
+                response.setErrorCode(ErrorCodes.VALIDATION_EXCEPTION);
+                response.setErrorMessage(ErrorMessages.VALIDATION);
+                log.info("response {}", response);
+                log.error("UnsupportedCodeException", e);
+                System.err.println(e.getMessage());
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+            } catch (Exception e) {
+                response.setCode(Codes.FAILED);
+                response.setErrorCode(ErrorCodes.UNKNOWN_EXCEPTIONS);
+                response.setErrorMessage(ErrorMessages.UNKNOWN);
+                log.info("response {}", response);
+                log.error("Exception", e);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            modifyResponseService.modify(response);
         log.info("request {}", request);
         return new ResponseEntity<>(modifyResponseService.modify(response), HttpStatus.OK);
 

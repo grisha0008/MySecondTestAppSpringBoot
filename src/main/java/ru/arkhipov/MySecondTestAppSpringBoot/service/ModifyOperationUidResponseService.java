@@ -1,16 +1,14 @@
 package ru.arkhipov.MySecondTestAppSpringBoot.service;
 
-
+import ru.arkhipov.MySecondTestAppSpringBoot.model.Response;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.arkhipov.MySecondTestAppSpringBoot.model.Response;
 
 import java.util.UUID;
 @Service
-@Qualifier
+@Qualifier("ModifyOperationUidResponseService")
 public class ModifyOperationUidResponseService
         implements ModifyResponseService{
-
 
     @Override
     public Response modify(Response response) {

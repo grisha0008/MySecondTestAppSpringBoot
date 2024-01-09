@@ -11,6 +11,6 @@ public class Response {
     private String systemTime;
     private Codes code;
     private ErrorCodes errorCode;
-    private ErrorMesages errorMessage;
+    private ErrorMessages errorMessage;
 
 }

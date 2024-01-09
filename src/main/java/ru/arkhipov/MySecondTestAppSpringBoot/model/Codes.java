@@ -6,8 +6,7 @@ public enum Codes {
 
     SUCCESS("success"),
 
-    FAILED("failed"),
-    UNSUPPORTED("failed");
+    FAILED("failed");
 
     private final String name;
 
